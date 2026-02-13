@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Quieres ser mi San Valentín?</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(0,0,0,0.3);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+}
+
+img {
+    width: 200px;
+    border-radius: 15px;
+    margin: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yesBtn { background-color: #4CAF50; color: white; }
+#noBtn { background-color: #f44336; color: white; }
+
+.hidden { display: none; }
+
+.gallery img {
+    width: 180px;
+    margin: 10px;
+}
+
+/* Corazones animados con clip-path */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    clip-path: polygon(50% 0%, 61% 15%, 75% 15%, 85% 25%, 90% 40%, 75% 60%, 50% 80%, 25% 60%, 10% 40%, 15% 25%, 25% 15%, 39% 15%);
+    top: -50px;
+    animation: fall linear infinite;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+
+    <!-- Imagen principal -->
+    <img id="mainImage" src="San Valentín.jpeg" alt="Imagen romántica">
+
+    <h1 id="question">¿Quieres ser mi San Valentín?</h1>
+
+    <div class="buttons" id="buttons">
+        <button id="yesBtn">Sí</button>
+        <button id="noBtn">No</button>
+    </div>
+
+    <!-- Galería final -->
+    <div id="gallery" class="gallery hidden">
+        <h1>VAMOOOOOOOOSSS TENGO SAN VALENTIN, i love u bebe ❤️</h1>
+        <img src="image0.jpeg">
+        <img src="image1.jpeg">
+        <img src="image2.jpeg">
+        <img src="image4.jpeg">
+    </div>
+
+</div>
+
+<script>
+let mainImage = document.getElementById("mainImage");
+let question = document.getElementById("question");
+let buttons = document.getElementById("buttons");
+let yesBtn = document.getElementById("yesBtn");
+let noBtn = document.getElementById("noBtn");
+let gallery = document.getElementById("gallery");
+
+let size = 18;
+let noClicks = 0;
+
+// Guardamos eventos originales
+let yesBtnOriginal = yesBtn.onclick;
+let noBtnOriginal = noBtn.onclick;
+
+// Botón NO de la primera pregunta
+noBtn.addEventListener("click", function() {
+    size += 10;
+    yesBtn.style.fontSize = size + "px";
+    yesBtn.style.padding = (size) + "px " + (size*2) + "px";
+
+    noClicks++;
+    if (noClicks === 3) {
+        alert("Dale que sí imbecil 😏");
+    }
+});
+
+// Botón Sí de la primera pregunta
+yesBtn.addEventListener("click", function() {
+    mainImage.src = "descarga (1).jpeg"; // nueva imagen
+    question.textContent = "¿Has dicho que sí? 😏";
+
+    yesBtn.textContent = "Sí ";
+    noBtn.textContent = "No 🙈";
+
+    // Segunda pregunta: botón Sí
+    yesBtn.onclick = function() {
+        mainImage.classList.add("hidden");
+        buttons.classList.add("hidden");
+        question.classList.add("hidden");
+        gallery.classList.remove("hidden");
+
+        createHearts(); // activamos corazones
+    }
+
+    // Segunda pregunta: botón No
+    noBtn.onclick = function() {
+        mainImage.src = "San Valentín.jpeg";
+        question.textContent = "¿Quieres ser mi San Valentín?";
+        yesBtn.textContent = "Sí";
+        noBtn.textContent = "No ";
+
+        yesBtn.onclick = yesBtnOriginal;
+        noBtn.onclick = noBtnOriginal;
+    }
+});
+
+// Función para crear corazones animados
+function createHearts() {
+    for (let i = 0; i < 50; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
+        heart.style.width = (Math.random() * 25 + 10) + "px";
+        heart.style.height = heart.style.width;
+        document.body.appendChild(heart);
+    }
+}
+</script>
+
+</body>
+</html>
